@@ -1,0 +1,8 @@
+---
+# tasks file for nginx
+
+- name: Disable Default Site
+  file: dest="{{nginx.config.default}}" state=absent
+
+- name: Add Nginx Config
+  template: src=nginx.j2 dest={{nginx.config.file}} owner=root group=root

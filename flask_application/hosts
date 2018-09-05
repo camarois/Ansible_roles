@@ -1,1 +1,2 @@
-ECHO is on.
+[complianceserver]
+localhost ansible_connection=local

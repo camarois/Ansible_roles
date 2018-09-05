@@ -1,0 +1,36 @@
+---
+# vars file for supervisor
+
+  runtime:
+    dir: /var/run/supervisor
+    nodaemon: "false"
+    socket: supervisord.sock
+    pidfile: supervisord.pid
+
+  config:
+    dir: /etc/supervisord.d
+    file: /etc/supervisord.conf
+    default: /etc/default.supervisord.conf
+
+  log:
+    dir: /var/log/supervisord
+    file: supervisord.log
+    level: info
+
+  http:
+    file: status.ini
+    port: 127.0.0.1:9001
+    username: user
+    password: 123
+
+  programs:
+    - file: app.ini
+      name: app
+      values:
+        - command: /opt/test/app/app/venvApp/bin/gunicorn --chdir "{{ app_dir }}/app/app" -b localhost:8000 -w 4 app:app
+        - directory: /opt/test/app/app
+        - user: test
+        - autostart: "true"
+        - autorestart: "true"
+        - stopasgroup: "true"
+        - killasgroup: "true" 

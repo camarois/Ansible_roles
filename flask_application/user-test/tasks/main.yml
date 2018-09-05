@@ -1,0 +1,6 @@
+---
+# tasks file for user-test
+- name: Add the user 'test'
+  user:
+    name: test
+    comment: test restricted user

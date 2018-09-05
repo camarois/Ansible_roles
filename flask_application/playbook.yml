@@ -1,0 +1,12 @@
+#ansible all -m ping -b -i hosts
+#ansible-playbook playbook.yml -i hosts
+
+- hosts: testserver
+  become: true
+  roles:
+    - epel-repo
+    - user-test
+    - app
+    - nginxinc.nginx
+    - nginx
+    - supervisor

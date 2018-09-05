@@ -1,0 +1,11 @@
+---
+app_name: app
+app_dir: /opt/test
+app_requirements: "{{ app_dir }}/app/app/requirements.txt"
+app_venv: "{{ app_dir}}/app/app/venvApp"
+#app_repo_url: link to git project
+#app_repo_remote: origin
+#app_repo_version: branch
+
+app_user: "{{ test_user }}"
+app_group: "{{ test_group}}"
