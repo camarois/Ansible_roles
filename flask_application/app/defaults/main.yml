@@ -1,2 +1,4 @@
 ---
 # defaults file for app
+ssh_priv_key: test.priv
+ssh_pub_key: test.pub

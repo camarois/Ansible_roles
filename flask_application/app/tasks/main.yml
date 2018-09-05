@@ -1,2 +1,47 @@
 ---
 # tasks file for app
+
+- name: prepare necessary directories
+  file: path={{app_dir}} state=directory owner={{test_user}} group={{test_group}}
+
+- name: create .ssh directory
+  file: path="{{app_dir}}/.ssh" state=directory owner={{test_user}} group={{test_group}}
+
+- name: copy private ssh key
+  copy:
+    src: "{{ssh_priv_key}}"
+    dest: "{{app_dir}}/.ssh/{{ssh_priv_key}}"
+    owner: "{{test_user}}"
+    group: "{{test_group}}"
+    mode: 0600
+
+- name: deploy code from repository
+  git:
+    repo: "{{app_repo_url}}"
+    dest: "{{app_dir}}/{{app_name}}"
+    remote: "{{app_repo_remote}}"
+    version: "{{app_repo_verison}}"
+    accept_hostkey: yes
+    force: yes
+    key_file: "{{app_dir}}/.ssh/{{ssh_priv_key}}"
+
+- name: Install easy-install
+  yum:
+    name: python-setuptools
+
+- name: Install virtualenv package
+  easy_install:
+    name: virtualenv
+    state: latest
+
+- name: Install requirements
+  pip:
+    virtualenv: "{{app_venv}}"
+    virtualenv_python: python2.7
+    requirements: "{{app_requirements}}"
+
+- file:
+    path: /opt/test/app/app/logs/app.log
+    owner: "{{app_user}}"
+    group: "{{app_group}}"
+    mode: 0755
